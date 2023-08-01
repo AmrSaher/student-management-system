@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    DashboardController,
+    Auth\LoginController,
+    Auth\LogoutController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -12,3 +17,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// Auth
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'index')->name('login');
+    Route::post('/login', 'authenticate')->name('authenticate');
+})->middleware('guest');
+
+Route::post('/logout', LogoutController::class)
+    ->middleware('auth')
+    ->name('logout');
+
+Route::get('/', DashboardController::class)
+    ->middleware('auth')
+    ->name('dashboard');
