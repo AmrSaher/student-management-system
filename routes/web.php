@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     DashboardController,
     Auth\LoginController,
-    Auth\LogoutController
+    Auth\LogoutController,
+    StudentsController
 };
 
 /*
@@ -28,6 +29,11 @@ Route::post('/logout', LogoutController::class)
     ->middleware('auth')
     ->name('logout');
 
+// Dashboard
 Route::get('/', DashboardController::class)
     ->middleware('auth')
     ->name('dashboard');
+
+// Students
+Route::resource('/students', StudentsController::class)
+    ->middleware('auth');
