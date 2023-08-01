@@ -43,10 +43,26 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('scanner') }}" class="nav-link {{ Route::is('scanner') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-qrcode"></i>
+                        <p>
+                            Scanner
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('students.index') }}" class="nav-link {{ Route::is('students.index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-graduate"></i>
                         <p>
                             Students
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('grades.index') }}" class="nav-link {{ Route::is('grades.index') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <p>
+                            Grades
                         </p>
                     </a>
                 </li>

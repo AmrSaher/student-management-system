@@ -19,11 +19,6 @@
     </div>
     <!-- /.content-header -->
 
-    <!-- Modal -->
-    <div class="modal">
-
-    </div>
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -48,6 +43,18 @@
                         </div>
                         <div id="reader"></div>
                         @error('slug')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="grade">Grade</label>
+                        <select class="form-control" id="grade" required name="grade">
+                            <option value="">Select student grade</option>
+                            @foreach($grades as $grade)
+                                <option value="{{ $grade->id }}">{{ $grade->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('grade')
                             <span class="w-100 text-red">{{ $message }}</span>
                         @enderror
                     </div>
@@ -85,8 +92,8 @@
     <script>
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
-                width: 300,
-                height: 200,
+                width: 500,
+                height: 300,
             },
             fps: 10,
             formatsToSupport: [

@@ -5,7 +5,9 @@ use App\Http\Controllers\{
     DashboardController,
     Auth\LoginController,
     Auth\LogoutController,
-    StudentsController
+    StudentsController,
+    GradesController,
+    ScannerController
 };
 
 /*
@@ -34,6 +36,15 @@ Route::get('/', DashboardController::class)
     ->middleware('auth')
     ->name('dashboard');
 
+// Scanner
+Route::get('/scanner', ScannerController::class)
+    ->middleware('auth')
+    ->name('scanner');
+
 // Students
 Route::resource('/students', StudentsController::class)
+    ->middleware('auth');
+
+// Grades
+Route::resource('/grades', GradesController::class)
     ->middleware('auth');

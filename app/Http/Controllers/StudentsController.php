@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,11 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        $grades = Grade::all();
+
+        return view('students.create', [
+            'grades' => $grades
+        ]);
     }
 
     /**
@@ -35,7 +40,8 @@ class StudentsController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'slug' => ['required', 'unique:students,slug', 'string'],
-            'image' => ['required']
+            'image' => ['required'],
+            'grade' => ['required', 'integer']
         ]);
 
         $image_path = $request->file('image')->store('public/students_images');
@@ -43,7 +49,8 @@ class StudentsController extends Controller
         Student::create([
             'name' => $request->input('name'),
             'slug' => $request->input('slug'),
-            'image_path' => $image_path
+            'image_path' => $image_path,
+            'grade_id' => $request->input('grade')
         ]);
 
         return redirect()->route('students.index');

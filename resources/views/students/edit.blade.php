@@ -19,11 +19,6 @@
     </div>
     <!-- /.content-header -->
 
-    <!-- Modal -->
-    <div class="modal">
-
-    </div>
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">

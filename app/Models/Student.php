@@ -11,6 +11,12 @@ class Student extends Model
     protected $fillable = [
         'name',
         'slug',
-        'image_path'
+        'image_path',
+        'grade_id'
     ];
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id');
+    }
 }

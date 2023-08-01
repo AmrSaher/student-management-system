@@ -29,6 +29,7 @@
                         <th>ID</th>
                         <th>Image</th>
                         <th>Name</th>
+                        <th>Grade</th>
                         <th>Slug</th>
                         <th>Actions</th>
                     </tr>
@@ -41,6 +42,7 @@
                                 <img src="{{ asset('storage/' . str_replace('public', '', $student->image_path)) }}" alt="student image" style="width: 60px; height: 60px; object-fit: cover;">
                             </td>
                             <td>{{ $student->name }}</td>
+                            <td>{{ $student->grade->name }}</td>
                             <td>{{ $student->slug }}</td>
                             <td style="display: flex; flex-wrap: wrap; gap: 10px;">
                                 <a href="{{ route('students.edit', ['student' => $student->id]) }}" class="btn btn-primary">

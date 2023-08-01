@@ -16,6 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->text('image_path');
             $table->string('slug')->unique();
+            $table->unsignedBigInteger('grade_id');
+
+//            $table->foreign('grade_id')
+//                ->references('id')
+//                ->on('grades')
+//                ->onDelete('cascade');
             $table->timestamps();
         });
     }
