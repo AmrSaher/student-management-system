@@ -5,15 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Appointment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'slug',
-        'image_path',
-        'grade_id',
-        'appointment_id'
+        'days',
+        'clock',
+        'grade_id'
     ];
 
     public function grade()
@@ -21,8 +19,8 @@ class Student extends Model
         return $this->belongsTo(Grade::class, 'grade_id');
     }
 
-    public function appointment()
+    public function students()
     {
-        return $this->belongsTo(Appointment::class, 'appointment_id');
+        return $this->hasMany(Student::class);
     }
 }

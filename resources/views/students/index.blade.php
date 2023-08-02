@@ -30,6 +30,7 @@
                         <th>Image</th>
                         <th>Name</th>
                         <th>Grade</th>
+                        <th>Appointment</th>
                         <th>Slug</th>
                         <th>Actions</th>
                     </tr>
@@ -43,6 +44,7 @@
                             </td>
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->grade->name }}</td>
+                            <td>{{ $student->appointment->days }} - {{ $student->appointment->clock }}</td>
                             <td>{{ $student->slug }}</td>
                             <td style="display: flex; flex-wrap: wrap; gap: 10px;">
                                 <a href="{{ route('students.edit', ['student' => $student->id]) }}" class="btn btn-primary">

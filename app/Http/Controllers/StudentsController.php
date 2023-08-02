@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Grade;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -26,9 +27,11 @@ class StudentsController extends Controller
     public function create()
     {
         $grades = Grade::all();
+        $appointments = Appointment::all();
 
         return view('students.create', [
-            'grades' => $grades
+            'grades' => $grades,
+            'appointments' => $appointments
         ]);
     }
 
@@ -41,7 +44,8 @@ class StudentsController extends Controller
             'name' => ['required', 'string'],
             'slug' => ['required', 'unique:students,slug', 'string'],
             'image' => ['required'],
-            'grade' => ['required', 'integer']
+            'grade' => ['required', 'integer'],
+            'appointment' => ['required', 'integer']
         ]);
 
         $image_path = $request->file('image')->store('public/students_images');
@@ -50,7 +54,8 @@ class StudentsController extends Controller
             'name' => $request->input('name'),
             'slug' => $request->input('slug'),
             'image_path' => $image_path,
-            'grade_id' => $request->input('grade')
+            'grade_id' => $request->input('grade'),
+            'appointment_id' => $request->input('appointment')
         ]);
 
         return redirect()->route('students.index');
@@ -61,8 +66,13 @@ class StudentsController extends Controller
      */
     public function edit(Student $student)
     {
+        $grades = Grade::all();
+        $appointments = Appointment::all();
+
         return view('students.edit', [
-            'student' => $student
+            'student' => $student,
+            'grades' => $grades,
+            'appointments' => $appointments
         ]);
     }
 
@@ -73,7 +83,9 @@ class StudentsController extends Controller
     {
         $attrs = $request->validate([
             'name' => ['required', 'string'],
-            'slug' => ['required', 'string']
+            'slug' => ['required', 'string'],
+            'grade' => ['required', 'integer'],
+            'appointment' => ['required', 'integer']
         ]);
 
         $image_path = $request->file('image') ?
@@ -82,7 +94,9 @@ class StudentsController extends Controller
 
         $student->update([
              ...$attrs,
-            'image_path' => $image_path
+            'image_path' => $image_path,
+            'grade_id' => $request->input('grade'),
+            'appointment_id' => $request->input('appointment')
         ]);
 
         return redirect()->route('students.index');

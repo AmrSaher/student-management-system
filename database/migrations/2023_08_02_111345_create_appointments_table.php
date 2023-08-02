@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('image_path');
-            $table->string('slug')->unique();
+            $table->enum('days', [
+                'Sat/Mon/Wed',
+                'Sun/Tue/Thu'
+            ]);
+            $table->time('clock');
             $table->unsignedBigInteger('grade_id');
-            $table->unsignedBigInteger('appointment_id');
 
-//            $table->foreign('grade_id')
-//                ->references('id')
-//                ->on('grades')
-//                ->onDelete('cascade');
+            $table->foreign('grade_id')
+                ->references('id')
+                ->on('grades')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('appointments');
     }
 };

@@ -48,6 +48,30 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="grade">Grade</label>
+                        <select class="form-control" id="grade" required name="grade">
+                            <option value="">Select student grade</option>
+                            @foreach($grades as $grade)
+                                <option value="{{ $grade->id }}" {{ $student->grade_id == $grade->id ? 'selected' : '' }}>{{ $grade->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('grade')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment">Appointment</label>
+                        <select class="form-control" id="appointment" required name="appointment">
+                            <option value="">Select student appointment</option>
+                            @foreach($appointments as $appointment)
+                                <option value="{{ $appointment->id }}" {{ $student->appointment_id == $appointment->id ? 'selected' : '' }}>{{ $appointment->days }} - {{ $appointment->clock }}</option>
+                            @endforeach
+                        </select>
+                        @error('appointment')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="image">Image</label>
                         <div class="input-group">
                             <div class="custom-file">
@@ -79,6 +103,22 @@
 
 @section('extra-js')
     <script>
+        const appointments = JSON.parse('{{ $appointments }}'.replaceAll('&quot;', '"'))
+        const gradeSelect = document.querySelector('#grade')
+        const appointmentSelect = document.querySelector('#appointment')
+
+        gradeSelect.addEventListener('change', e => {
+            let gradeId = e.target.value
+            let gradeAppointments = appointments.filter(appointment => appointment.grade_id == gradeId)
+
+            let options = '<option value="">Select student appointment</option>'
+            gradeAppointments.forEach(appointment => {
+                options += `<option value="${appointment.id}">${appointment.days} - ${appointment.clock}</option>`
+            })
+
+            appointmentSelect.innerHTML = options
+        })
+
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
                 width: 300,

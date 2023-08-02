@@ -30,12 +30,13 @@
                     <div class="row">
                         <div class="col-12 col-sm-6">
                             <div class="col-12">
-                                <img class="product-image" id="student-image" alt="Product Image">
+                                <img class="product-image" id="student-image" alt="student image">
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <h3 class="my-3" id="student-title">----</h3>
                             <p id="student-grade">----</p>
+                            <p id="student-appointment">----</p>
 
                             <hr>
 
@@ -44,7 +45,8 @@
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
 
-                                <a id="delete-link" class="btn btn-danger">
+                                <form method="post" style="display: none" id="delete-student-form">@csrf @method('delete')</form>
+                                <a href="#" class="btn btn-danger" onclick="if (confirm('Are you sure ?')) document.getElementById('delete-student-form').submit()">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
                             </div>
@@ -64,7 +66,6 @@
 @endsection
 
 @section('extra-js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
@@ -84,12 +85,16 @@
                     const title = document.querySelector('#student-title')
                     const image = document.querySelector('#student-image')
                     const grade = document.querySelector('#student-grade')
+                    const appointment = document.querySelector('#student-appointment')
                     const editLink = document.querySelector('#edit-link')
+                    const deleteForm = document.querySelector('#delete-student-form')
 
                     title.innerHTML = data.student.name
                     grade.innerHTML = data.grade
                     image.src = `/storage/${data.student.image_path.replace('public', '')}`
                     editLink.href = `/students/${data.student.id}/edit`
+                    deleteForm.action = `/students/${data.student.id}`
+                    appointment.innerHTML = data.appointment
                 })
                 .catch(err => {
                     console.log(err)

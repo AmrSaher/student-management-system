@@ -7,7 +7,8 @@ use App\Http\Controllers\{
     Auth\LogoutController,
     StudentsController,
     GradesController,
-    ScannerController
+    ScannerController,
+    AppointmentsController
 };
 
 /*
@@ -47,4 +48,8 @@ Route::resource('/students', StudentsController::class)
 
 // Grades
 Route::resource('/grades', GradesController::class)
+    ->middleware('auth');
+
+// Appointments
+Route::resource('/appointments', AppointmentsController::class)
     ->middleware('auth');
