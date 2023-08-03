@@ -13,7 +13,7 @@ class StudentsController extends Controller
         return response()->json([
             'student' => $student,
             'grade' => $student->grade->name,
-            'appointment' => $student->appointment->days . ' - ' . $student->appointment->clock
+            'appointment' => $student->appointment->days . ' - ' . $student->appointment->clock . ' - <strong>' . $student->grade->mrs . ' L.E</strong>'
         ], 200);
     }
 }

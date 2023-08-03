@@ -34,6 +34,13 @@
                             <span class="w-100 text-red">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="mrs">MRS <small>(Monthly return from the student)</small></label>
+                        <input type="number" class="form-control" id="mrs" placeholder="Enter grade mrs" required name="mrs" value="{{ $grade->smr }}">
+                        @error('mrs')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
                 <!-- /.card-body -->
 

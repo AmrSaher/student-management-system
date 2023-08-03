@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->unsignedBigInteger('grade_id');
             $table->unsignedBigInteger('appointment_id');
+            $table->boolean('isExist')->default(true);
 
 //            $table->foreign('grade_id')
 //                ->references('id')

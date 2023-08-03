@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     StudentsController,
     GradesController,
     ScannerController,
-    AppointmentsController
+    AppointmentsController,
+    TodayWorkController
 };
 
 /*
@@ -53,3 +54,8 @@ Route::resource('/grades', GradesController::class)
 // Appointments
 Route::resource('/appointments', AppointmentsController::class)
     ->middleware('auth');
+Route::controller(TodayWorkController::class)->middleware('auth')->group(function () {
+    Route::get('/work', 'index')
+        ->name('work');
+    Route::get('/work/start/{appointment}', 'start')->name('work.start');
+});

@@ -24,7 +24,8 @@ class GradeSeeder extends Seeder
 
         foreach ($grades as $grade) {
             Grade::create([
-                'name' => $grade
+                'name' => $grade,
+                'mrs' => (int)mt_rand(100, 200)
             ]);
         }
     }

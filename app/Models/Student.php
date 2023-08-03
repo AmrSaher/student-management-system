@@ -13,7 +13,8 @@ class Student extends Model
         'slug',
         'image_path',
         'grade_id',
-        'appointment_id'
+        'appointment_id',
+        'isExist'
     ];
 
     public function grade()

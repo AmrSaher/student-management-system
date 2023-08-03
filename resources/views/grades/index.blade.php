@@ -28,6 +28,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
+                    <th>MRS</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -36,6 +37,7 @@
                     <tr>
                         <td>{{ $grade->id }}</td>
                         <td>{{ $grade->name }}</td>
+                        <td>{{ $grade->mrs }} L.E</td>
                         <td style="display: flex; flex-wrap: wrap; gap: 10px;">
                             <a href="{{ route('grades.edit', ['grade' => $grade->id]) }}" class="btn btn-primary">
                                 <i class="fas fa-pencil-alt"></i>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\StudentsController;
+use App\Http\Controllers\TodayWorkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Students
 Route::get('/students/{student:slug}', [StudentsController::class, 'show']);
+
+// Work
+Route::post('/work/scan/{student:slug}/{appointment}', [TodayWorkController::class, 'scan'])->name('work.scan');

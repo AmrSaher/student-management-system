@@ -33,7 +33,8 @@ class GradesController extends Controller
     public function store(Request $request)
     {
         $attrs = $request->validate([
-            'name' => ['required', 'string', 'unique:grades,name']
+            'name' => ['required', 'string', 'unique:grades,name'],
+            'mrs' => ['required', 'integer']
         ]);
 
         Grade::create($attrs);
@@ -57,7 +58,8 @@ class GradesController extends Controller
     public function update(Request $request, Grade $grade)
     {
         $attrs = $request->validate([
-            'name' => ['required', 'string']
+            'name' => ['required', 'string'],
+            'mrs' => ['required', 'integer']
         ]);
 
         $grade->update($attrs);
