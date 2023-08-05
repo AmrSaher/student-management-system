@@ -20,6 +20,9 @@ class StudentFactory extends Factory
 
         return [
             'name' => $this->faker->name,
+            'phone_number' => $this->faker->phoneNumber,
+            'parents_phone_number' => $this->faker->phoneNumber,
+            'address' => $this->faker->address,
             'slug' => $this->faker->slug,
             'image_path' => $this->faker->imageUrl,
             'grade_id' => $randID,

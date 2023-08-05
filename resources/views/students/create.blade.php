@@ -34,6 +34,27 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="phone_number">Phone Number</label>
+                        <input type="number" class="form-control" id="phone_number" placeholder="Enter student phone number" required name="phone_number">
+                        @error('phone_number')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="parents_phone_number">Parents Phone Number</label>
+                        <input type="number" class="form-control" id="parents_phone_number" placeholder="Enter student parents phone number" required name="parents_phone_number">
+                        @error('parents_phone_number')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="Enter student address" required name="address">
+                        @error('address')
+                            <span class="w-100 text-red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label for="slug">Slug</label>
                         <div style="position: relative">
                             <input type="text" class="form-control" id="slug" placeholder="Enter student slug" required name="slug">

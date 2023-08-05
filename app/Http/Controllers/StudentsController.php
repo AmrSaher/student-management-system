@@ -42,7 +42,10 @@ class StudentsController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
+            'phone_number' => ['required', 'string', 'digits:11', 'unique:students,phone_number'],
+            'parents_phone_number' => ['required', 'string', 'digits:11', 'unique:students,parents_phone_number'],
             'slug' => ['required', 'unique:students,slug', 'string'],
+            'address' => ['required', 'string'],
             'image' => ['required'],
             'grade' => ['required', 'integer'],
             'appointment' => ['required', 'integer']
@@ -52,6 +55,9 @@ class StudentsController extends Controller
 
         Student::create([
             'name' => $request->input('name'),
+            'phone_number' => $request->input('phone_number'),
+            'parents_phone_number' => $request->input('parents_phone_number'),
+            'address' => $request->input('address'),
             'slug' => $request->input('slug'),
             'image_path' => $image_path,
             'grade_id' => $request->input('grade'),
@@ -83,6 +89,9 @@ class StudentsController extends Controller
     {
         $attrs = $request->validate([
             'name' => ['required', 'string'],
+            'phone_number' => ['required', 'string', 'digits:11'],
+            'parents_phone_number' => ['required', 'string', 'digits:11'],
+            'address' => $request->input('address'),
             'slug' => ['required', 'string'],
             'grade' => ['required', 'integer'],
             'appointment' => ['required', 'integer']

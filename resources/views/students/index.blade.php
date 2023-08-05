@@ -29,6 +29,9 @@
                         <th>ID</th>
                         <th>Image</th>
                         <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Parents Phone Number</th>
+                        <th>Address</th>
                         <th>Grade</th>
                         <th>Appointment</th>
                         <th>Slug</th>
@@ -43,6 +46,9 @@
                                 <img src="{{ asset('storage/' . str_replace('public', '', $student->image_path)) }}" alt="student image" style="width: 60px; height: 60px; object-fit: cover;">
                             </td>
                             <td>{{ $student->name }}</td>
+                            <td>{{ $student->phone_number }}</td>
+                            <td>{{ $student->parents_phone_number }}</td>
+                            <td>{{ $student->address }}</td>
                             <td>{{ $student->grade->name }}</td>
                             <td>{{ $student->appointment->days }} - {{ $student->appointment->clock }}</td>
                             <td>{{ $student->slug }}</td>
