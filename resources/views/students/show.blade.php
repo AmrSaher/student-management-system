@@ -26,9 +26,26 @@
             <!-- Default box -->
             <div class="card card-solid">
                 <div class="card-body">
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success" role="alert">
+                            {!! $message !!}
+                        </div>
+                        <?php Session::forget('success'); ?>
+                    @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {!! $message !!}
+                        </div>
+                        <?php Session::forget('error'); ?>
+                    @endif
                     @if(!$student->isExist)
                         <div class="alert alert-danger" role="alert">
                             Absent
+                        </div>
+                    @endif
+                    @if($student->isPaid())
+                        <div class="alert alert-danger" role="alert">
+                            The monthly subscription fee was not paid
                         </div>
                     @endif
                     <div class="row">
@@ -65,9 +82,18 @@
                                     @csrf
                                     @method('delete')
                                 </form>
-                                <a href="#" class="btn btn-danger" onclick="if (confirm('Are you sure ?')) document.getElementById('delete-student-form').submit()">
+                                <a href="#" class="btn btn-danger" onclick="if (confirm('Are you sure ?')) document.getElementById('delete-student-form').submit()" style="margin-right: 10px;">
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
+
+                                @if($student->isPaid())
+                                    <form action="{{ route('students.pay', ['student' => $student->id]) }}" method="post" id="pay-student-form" style="display: none">
+                                        @csrf
+                                    </form>
+                                    <a href="#" onclick="document.getElementById('pay-student-form').submit()" class="btn btn-success">
+                                        <i class="far fa-credit-card"></i>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>

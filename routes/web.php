@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     GradesController,
     ScannerController,
     AppointmentsController,
-    TodayWorkController
+    TodayWorkController,
+    PaypalController
 };
 
 /*
@@ -46,6 +47,11 @@ Route::get('/scanner', ScannerController::class)
 // Students
 Route::resource('/students', StudentsController::class)
     ->middleware('auth');
+// Paypal
+Route::controller(PaypalController::class)->middleware('auth')->group(function () {
+    Route::post('/students/{student}/pay', 'index')->name('students.pay');
+    Route::get('/students/{student}/pay/status', 'status')->name('students.pay.status');
+});
 
 // Grades
 Route::resource('/grades', GradesController::class)

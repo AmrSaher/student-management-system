@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('grade_id');
             $table->unsignedBigInteger('appointment_id');
             $table->boolean('isExist')->default(true);
+            $table->date('paid_at')->default(now())->nullable();
 
 //            $table->foreign('grade_id')
 //                ->references('id')

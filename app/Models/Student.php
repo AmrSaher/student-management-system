@@ -17,7 +17,8 @@ class Student extends Model
         'image_path',
         'grade_id',
         'appointment_id',
-        'isExist'
+        'isExist',
+        'paid_at'
     ];
 
     public function grade()
@@ -28,5 +29,24 @@ class Student extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class, 'appointment_id');
+    }
+
+    public function isPaid()
+    {
+        $date1 = $this->paid_at;
+        $date2 = now();
+
+        $ts1 = strtotime($date1);
+        $ts2 = strtotime($date2);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+
+        return $diff >= 1;
     }
 }
