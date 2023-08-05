@@ -19,11 +19,13 @@ class AppointmentSeeder extends Seeder
         ];
 
         for ($i = 1; $i <= 6; $i++) {
-            Appointment::create([
-                'days' => $days[(int)mt_rand(0, 1)],
-                'clock' => date('H:i', rand(0, time())),
-                'grade_id' => $i
-            ]);
+            for ($j = 0; $j < mt_rand(2, 5); $j++) {
+                Appointment::create([
+                    'days' => $days[mt_rand(0, 1)],
+                    'clock' => date('H:i', rand(0, time())),
+                    'grade_id' => $i
+                ]);
+            }
         }
     }
 }

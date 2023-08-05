@@ -26,7 +26,7 @@ class TodayWorkController extends Controller
         foreach ($appointments as $appointment) {
             $grades[] = $appointment->grade;
         }
-        array_unique($grades);
+        $grades = array_unique($grades);
 
         return view('appointments.work.index', [
             'grades' => $grades,
