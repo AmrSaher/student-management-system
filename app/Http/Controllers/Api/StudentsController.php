@@ -10,10 +10,6 @@ class StudentsController extends Controller
 {
     public function show(Student $student)
     {
-        return response()->json([
-            'student' => $student,
-            'grade' => $student->grade->name,
-            'appointment' => $student->appointment->days . ' - ' . $student->appointment->clock . ' - <strong>' . $student->grade->mrs . ' L.E</strong>'
-        ], 200);
+        return $student->id;
     }
 }

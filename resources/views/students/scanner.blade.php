@@ -6,13 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Work</h1>
+                    <h1 class="m-0">Scanner</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">
-                            <button class="btn btn-success" id="scan-btn">Scan Again</button>
-                        </li>
+                        <li class="breadcrumb-item"><a href="{{ route('students.index') }}">Students</a></li>
+                        <li class="breadcrumb-item active">Scanner</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -23,7 +22,6 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <p id="message"></p>
             <div id="reader" style="width: 90%; margin: auto;"></div>
         </div><!--/. container-fluid -->
     </section>
@@ -36,7 +34,6 @@
 
 @section('extra-js')
     <script>
-        const message = document.getElementById('message')
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
                 width: 500,
@@ -48,40 +45,25 @@
             ]
         })
 
-        async function recordStudent(result) {
-            await fetch(`/api/work/scan/${result}/{{ $appointment->id }}`, {
-                    method: 'POST'
-                })
-                .then(response => response.json())
+        async function fetchData(result) {
+            await fetch('/api/students/' + result)
+                .then(response => response.text())
                 .then(data => {
-                    message.innerHTML = data.message
-                    message.className = data.message == 'Success' ? 'text-success' : 'text-danger'
+                    location.href = 'students/' + data
                 })
                 .catch(err => {
-                    console.log(err.message)
+                    console.log(err)
                 })
         }
 
-        function start() {
-            document.getElementById('reader').style.display = 'block'
-            message.style.display = 'none'
+        scanner.render(success, error)
 
-            scanner.render(success, error)
-
-            async function success(result) {
-                recordStudent(result)
-
-                scanner.clear()
-                document.getElementById('reader').style.display = 'none'
-                message.style.display = 'block'
-            }
-
-            function error(err) {
-                console.error(err)
-            }
+        async function success(result) {
+            fetchData(result)
+            scanner.clear()
         }
-        start()
-
-        document.getElementById('scan-btn').addEventListener('click', start)
+        function error(err) {
+            console.error(err)
+        }
     </script>
 @endsection

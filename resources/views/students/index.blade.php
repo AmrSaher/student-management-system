@@ -53,6 +53,9 @@
                             <td>{{ $student->appointment->days }} - {{ $student->appointment->clock }}</td>
                             <td>{{ $student->slug }}</td>
                             <td style="display: flex; flex-wrap: wrap; gap: 10px;">
+                                <a href="{{ route('students.show', ['student' => $student->id]) }}" class="btn btn-success">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                 <a href="{{ route('students.edit', ['student' => $student->id]) }}" class="btn btn-primary">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>

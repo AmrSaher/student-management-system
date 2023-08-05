@@ -68,6 +68,16 @@ class StudentsController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Student $student)
+    {
+        return view('students.show', [
+            'student' => $student
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Student $student)
