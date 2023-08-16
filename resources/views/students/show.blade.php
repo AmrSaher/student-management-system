@@ -26,24 +26,12 @@
             <!-- Default box -->
             <div class="card card-solid">
                 <div class="card-body">
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success" role="alert">
-                            {!! $message !!}
-                        </div>
-                        <?php Session::forget('success'); ?>
-                    @endif
-                    @if ($message = Session::get('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {!! $message !!}
-                        </div>
-                        <?php Session::forget('error'); ?>
-                    @endif
                     @if(!$student->isExist)
                         <div class="alert alert-danger" role="alert">
                             Absent
                         </div>
                     @endif
-                    @if($student->isPaid())
+                    @if(!$student->isPaid())
                         <div class="alert alert-danger" role="alert">
                             The monthly subscription fee was not paid
                         </div>
@@ -66,7 +54,7 @@
                             </p>
                             <p>
                                 <strong>Parents Phone Number : </strong>
-                                {{ $student->phone_number }}
+                                {{ $student->parents_phone_number }}
                             </p>
                             <p>
                                 <strong>Address : </strong>
@@ -86,11 +74,11 @@
                                     <i class="fas fa-trash-alt"></i>
                                 </a>
 
-                                @if($student->isPaid())
-                                    <form action="{{ route('students.pay', ['student' => $student->id]) }}" method="post" id="pay-student-form" style="display: none">
+                                @if(!$student->isPaid())
+                                    <form action="{{ route('students.subscribe', ['student' => $student->id]) }}" method="post" id="subscribe-student-form" style="display: none">
                                         @csrf
                                     </form>
-                                    <a href="#" onclick="document.getElementById('pay-student-form').submit()" class="btn btn-success">
+                                    <a href="#" onclick="if (confirm('Are you sure ?')) document.getElementById('subscribe-student-form').submit()" class="btn btn-success">
                                         <i class="far fa-credit-card"></i>
                                     </a>
                                 @endif

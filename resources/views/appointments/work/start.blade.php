@@ -24,6 +24,9 @@
     <section class="content">
         <div class="container-fluid">
             <p id="message"></p>
+            <a href="#" class="btn btn-success w-auto" id="subscribe-btn">
+                <i class="far fa-credit-card"></i>
+            </a>
             <div id="reader" style="width: 90%; margin: auto;"></div>
         </div><!--/. container-fluid -->
     </section>
@@ -37,6 +40,8 @@
 @section('extra-js')
     <script>
         const message = document.getElementById('message')
+        const subscribeBtn = document.getElementById('subscribe-btn')
+        const scanBtn = document.getElementById('scan-btn')
         const scanner = new Html5QrcodeScanner('reader', {
             qrbox: {
                 width: 500,
@@ -48,23 +53,43 @@
             ]
         })
 
+        let studentID
         async function recordStudent(result) {
             await fetch(`/api/work/scan/${result}/{{ $appointment->id }}`, {
                     method: 'POST'
                 })
-                .then(response => response.json())
-                .then(data => {
-                    message.innerHTML = data.message
-                    message.className = data.message == 'Success' ? 'text-success' : 'text-danger'
+                .then(res => res.json())
+                .then(res => {
+                    let isPaid = res.isPaid
+                    message.innerHTML = res.message
+                    message.className = 'text-' + res.messageColor
+                    subscribeBtn.style.display = isPaid ? 'none' : 'block'
+                    studentID = res.studentID
                 })
                 .catch(err => {
                     console.log(err.message)
                 })
         }
 
+        async function subscribe() {
+            if (confirm('Are you sure ?') && studentID) {
+                await fetch('/api/students/subscribe/' + studentID, {
+                        method: 'POST'
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        alert('Subscribed')
+                    })
+                    .catch(err => {
+                        console.log(err.message)
+                    })
+            }
+        }
+
         function start() {
             document.getElementById('reader').style.display = 'block'
             message.style.display = 'none'
+            subscribeBtn.style.display = 'none'
 
             scanner.render(success, error)
 
@@ -82,6 +107,7 @@
         }
         start()
 
-        document.getElementById('scan-btn').addEventListener('click', start)
+        scanBtn.addEventListener('click', start)
+        subscribeBtn.addEventListener('click', subscribe)
     </script>
 @endsection

@@ -4,26 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
-use PayPal\Api\Amount;
-use PayPal\Api\Item;
-use PayPal\Api\ItemList;
-use PayPal\Api\Payer;
-use PayPal\Api\Payment;
-use PayPal\Api\PaymentExecution;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
+use PayPal\Api\{
+    Amount,
+    Item,
+    ItemList,
+    Payer,
+    Payment,
+    PaymentExecution,
+    RedirectUrls,
+    Transaction
+};
 
 class PaypalController extends Controller
 {
-    private ApiContext $_api_context;
+    private $_api_context;
     private array $paypal_configuration;
 
     public function __construct()
     {
         $this->paypal_configuration = config('paypal');
-        $this->_api_context = new ApiContext(new OAuthTokenCredential($this->paypal_configuration['client_id'], $this->paypal_configuration['secret']));
+
+        $this->_api_context = new ApiContext(
+            new OAuthTokenCredential($this->paypal_configuration['client_id'],
+            $this->paypal_configuration['secret'])
+        );
         $this->_api_context->setConfig($this->paypal_configuration['settings']);
     }
 
@@ -33,7 +40,6 @@ class PaypalController extends Controller
         $payer->setPaymentMethod('paypal');
 
         $item = new Item();
-
         $item->setName('Subscription')
             ->setCurrency('EGP')
             ->setQuantity(1)
@@ -67,7 +73,7 @@ class PaypalController extends Controller
 
         try {
             $payment->create($this->_api_context);
-        } catch (\Exception $ex) {
+        } catch (PayPalConnectionException $ex) {
             if (config('app.debug')) {
                 session()->put('error', 'Connection timeout');
                 return redirect()->route('students.show', [
@@ -82,7 +88,7 @@ class PaypalController extends Controller
         }
 
         foreach($payment->getLinks() as $link) {
-            if($link->getRel() == 'approval_url') {
+            if ($link->getRel() == 'approval_url') {
                 $redirect_url = $link->getHref();
                 break;
             }
@@ -90,7 +96,7 @@ class PaypalController extends Controller
 
         session()->put('paypal_payment_id', $payment->getId());
 
-        if(isset($redirect_url)) {
+        if (isset($redirect_url)) {
             return redirect()->away($redirect_url);
         }
 
@@ -105,7 +111,10 @@ class PaypalController extends Controller
         $payment_id = session()->get('paypal_payment_id');
 
         session()->forget('paypal_payment_id');
-        if (empty($request->input('PayerID')) || empty($request->input('token'))) {
+        if (
+            empty($request->input('PayerID')) ||
+            empty($request->input('token'))
+        ) {
             session()->put('error', 'Payment failed');
             return redirect()->route('students.show', [
                 'student' => $student->id
@@ -117,7 +126,7 @@ class PaypalController extends Controller
         $execution->setPayerId($request->input('PayerID'));
         $result = $payment->execute($execution, $this->_api_context);
 
-        if ($result->getState() == 'approved') {
+          if ($result->getState() == 'approved') {
             $student->update([
                 'paid_at' => now()
             ]);

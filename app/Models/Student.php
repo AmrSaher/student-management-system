@@ -47,6 +47,6 @@ class Student extends Model
 
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
 
-        return $diff >= 1;
+        return !($diff >= 1);
     }
 }

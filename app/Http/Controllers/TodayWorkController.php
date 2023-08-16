@@ -40,7 +40,7 @@ class TodayWorkController extends Controller
 
         foreach ($students as $student) {
             $student->update([
-                'isExist' => $student->isExist ? false : true
+                'isExist' => !$student->isExist
             ]);
         }
 
@@ -54,7 +54,8 @@ class TodayWorkController extends Controller
         $studentExist = !is_null($appointment->students()->find($student->id));
 
         if (!$studentExist) return response()->json([
-            'message' => 'Student is not exist in this group'
+            'message' => 'Student is not exist in this group',
+            'messageColor' => 'danger'
         ], 404);
 
         if ($student->isExist) {
@@ -63,7 +64,8 @@ class TodayWorkController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Student is absent'
+                'message' => 'Student is absent',
+                'messageColor' => 'danger'
             ], 404);
         }
 
@@ -72,7 +74,10 @@ class TodayWorkController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Success'
+            'message' => $student->isPaid() ? 'Success' : 'Success<p class="text-danger">but the monthly subscription fee was not paid</p>',
+            'messageColor' => 'success',
+            'isPaid' => $student->isPaid(),
+            'studentID' => $student->id
         ], 200);
     }
 }

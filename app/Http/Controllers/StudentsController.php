@@ -53,7 +53,7 @@ class StudentsController extends Controller
 
         $image_path = $request->file('image')->store('public/students_images');
 
-        Student::create([
+        $student = Student::create([
             'name' => $request->input('name'),
             'phone_number' => $request->input('phone_number'),
             'parents_phone_number' => $request->input('parents_phone_number'),
@@ -64,7 +64,9 @@ class StudentsController extends Controller
             'appointment_id' => $request->input('appointment')
         ]);
 
-        return redirect()->route('students.index');
+        return redirect()->route('students.show', [
+            'student' => $student->id
+        ]);
     }
 
     /**
@@ -101,7 +103,7 @@ class StudentsController extends Controller
             'name' => ['required', 'string'],
             'phone_number' => ['required', 'string', 'digits:11'],
             'parents_phone_number' => ['required', 'string', 'digits:11'],
-            'address' => $request->input('address'),
+            'address' => ['required', 'string'],
             'slug' => ['required', 'string'],
             'grade' => ['required', 'integer'],
             'appointment' => ['required', 'integer']
@@ -118,7 +120,9 @@ class StudentsController extends Controller
             'appointment_id' => $request->input('appointment')
         ]);
 
-        return redirect()->route('students.index');
+        return redirect()->route('students.show', [
+            'student' => $student->id
+        ]);
     }
 
     /**
@@ -128,6 +132,6 @@ class StudentsController extends Controller
     {
         $student->delete();
 
-        return back();
+        return redirect()->route('students.index');
     }
 }

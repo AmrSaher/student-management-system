@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\StudentsController;
+use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\TodayWorkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,3 +26,6 @@ Route::get('/students/{student:slug}', [StudentsController::class, 'show']);
 
 // Work
 Route::post('/work/scan/{student:slug}/{appointment}', [TodayWorkController::class, 'scan'])->name('work.scan');
+
+// Subscription
+Route::post('/students/subscribe/{student}', [SubscriptionController::class, 'subscribe']);

@@ -10,7 +10,7 @@ use App\Http\Controllers\{
     ScannerController,
     AppointmentsController,
     TodayWorkController,
-    PaypalController
+    SubscriptionController
 };
 
 /*
@@ -47,11 +47,10 @@ Route::get('/scanner', ScannerController::class)
 // Students
 Route::resource('/students', StudentsController::class)
     ->middleware('auth');
-// Paypal
-Route::controller(PaypalController::class)->middleware('auth')->group(function () {
-    Route::post('/students/{student}/pay', 'index')->name('students.pay');
-    Route::get('/students/{student}/pay/status', 'status')->name('students.pay.status');
-});
+// Subscription
+Route::post('/students/subscribe/{student}', [SubscriptionController::class, 'subscribe'])
+    ->middleware('auth')
+    ->name('students.subscribe');
 
 // Grades
 Route::resource('/grades', GradesController::class)
